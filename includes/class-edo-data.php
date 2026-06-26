@@ -99,6 +99,129 @@ class EDO_Data {
 	}
 
 	/**
+	 * Trainings, newest first.
+	 *
+	 * @param int $limit Max rows (0 = all).
+	 * @return array
+	 */
+	public static function trainings( $limit = 0 ) {
+		$posts = get_posts(
+			array(
+				'post_type'   => 'edo_training',
+				'post_status' => 'publish',
+				'numberposts' => $limit > 0 ? $limit : -1,
+				'orderby'     => 'date',
+				'order'       => 'DESC',
+			)
+		);
+
+		if ( empty( $posts ) ) {
+			$rows = self::sample_trainings();
+			return $limit > 0 ? array_slice( $rows, 0, $limit ) : $rows;
+		}
+
+		$rows = array();
+		foreach ( $posts as $p ) {
+			$rows[] = array(
+				'id'        => $p->ID,
+				'title'     => get_the_title( $p ),
+				'subject'   => (string) get_post_meta( $p->ID, 'subject', true ),
+				'date'      => (string) get_post_meta( $p->ID, 'event_date', true ),
+				'place'     => (string) get_post_meta( $p->ID, 'place', true ),
+				'online'    => (bool) get_post_meta( $p->ID, 'is_online', true ),
+				'spots'     => (string) get_post_meta( $p->ID, 'spots', true ),
+				'is_sample' => false,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Documents & resources, newest first.
+	 *
+	 * @return array
+	 */
+	public static function documents() {
+		$posts = get_posts(
+			array(
+				'post_type'   => 'edo_document',
+				'post_status' => 'publish',
+				'numberposts' => -1,
+				'orderby'     => 'date',
+				'order'       => 'DESC',
+			)
+		);
+
+		if ( empty( $posts ) ) {
+			return self::sample_documents();
+		}
+
+		$rows = array();
+		foreach ( $posts as $p ) {
+			$cat = (string) get_post_meta( $p->ID, 'doc_category', true );
+			$cat = $cat ? $cat : 'document';
+			$rows[] = array(
+				'id'        => $p->ID,
+				'title'     => get_the_title( $p ),
+				'cat'       => $cat,
+				'short'     => self::doc_short( $cat ),
+				'meta'      => (string) get_post_meta( $p->ID, 'meta_line', true ),
+				'is_sample' => false,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Team members. Real EDO members when present, else sample team.
+	 *
+	 * @return array
+	 */
+	public static function members() {
+		$users = get_users(
+			array(
+				'role'    => EDO_Roles::ROLE,
+				'orderby' => 'display_name',
+			)
+		);
+
+		if ( empty( $users ) ) {
+			return self::sample_members();
+		}
+
+		$rows = array();
+		foreach ( $users as $u ) {
+			$role  = get_user_meta( $u->ID, 'edo_function', true );
+			$avail = get_user_meta( $u->ID, 'edo_availability', true );
+			$rows[] = array(
+				'id'        => $u->ID,
+				'name'      => $u->display_name,
+				'role'      => $role ? $role : __( 'Ervaringsdeskundige', 'setg' ),
+				'tags'      => array(),
+				'avail'     => $avail ? $avail : '—',
+				'is_sample' => false,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Short label shown on a document tile, derived from its category.
+	 *
+	 * @param string $cat Category key.
+	 * @return string
+	 */
+	private static function doc_short( $cat ) {
+		$map = array(
+			'document' => 'PDF',
+			'artikel'  => 'ART',
+			'video'    => 'MP4',
+			'beleid'   => 'BEL',
+		);
+		return isset( $map[ $cat ] ) ? $map[ $cat ] : 'DOC';
+	}
+
+	/**
 	 * Quick dashboard counts.
 	 *
 	 * @return array{assignments:int,trainings:int,documents:int}
@@ -204,6 +327,96 @@ class EDO_Data {
 				'body'      => $r[1],
 				'date'      => $r[2],
 				'important' => $r[3],
+				'is_sample' => true,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Sample trainings.
+	 *
+	 * @return array
+	 */
+	private static function sample_trainings() {
+		$raw = array(
+			array( 'Beoordelen van onderzoeksvoorstellen', 'Referent worden bij ZonMw · via Involv', '9 & 30 sept 2026', 'Amsterdam', false, 'Nog 4 plekken' ),
+			array( 'Weerbaar & Bewust — basistraining', 'Ervaringsdeskundigheid inzetten met impact', '25 juni 2026', 'Online (Zoom)', true, 'Plekken vrij' ),
+			array( 'Vroegsignalering & herkenning gokschade', 'Signalen herkennen en toeleiden naar zorg', '2 juli 2026', 'Amsterdam', false, 'Nog 6 plekken' ),
+			array( 'Storytelling & presenteren met impact', 'Jouw verhaal krachtig én veilig vertellen', '10 juli 2026', 'Online (Zoom)', true, 'Plekken vrij' ),
+			array( 'Omgaan met stigma en schaamte', 'Veerkracht en grenzen in je rol', '16 juli 2026', 'Amsterdam', false, 'Nog 3 plekken' ),
+		);
+
+		$rows = array();
+		foreach ( $raw as $i => $r ) {
+			$rows[] = array(
+				'id'        => 'sample-t' . ( $i + 1 ),
+				'title'     => $r[0],
+				'subject'   => $r[1],
+				'date'      => $r[2],
+				'place'     => $r[3],
+				'online'    => $r[4],
+				'spots'     => $r[5],
+				'is_sample' => true,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Sample documents.
+	 *
+	 * @return array
+	 */
+	private static function sample_documents() {
+		$raw = array(
+			array( 'Handboek Ervaringsdeskundigheid', 'document', 'Document · 2,4 MB · PDF' ),
+			array( 'Addiction by Design — samenvatting', 'artikel', 'Artikel · 8 min lezen' ),
+			array( 'Webinar: vroegsignalering in de wijk', 'video', 'Video · 18 min' ),
+			array( 'Weerbaar & Bewust — werkboek', 'document', 'Document · 1,1 MB · PDF' ),
+			array( 'ZonMw beoordelingskader referenten', 'beleid', 'Beleid · richtlijn' ),
+			array( 'Interview: herstel en gokschade', 'video', 'Video · 24 min' ),
+			array( 'Factsheet gokschade & cijfers 2025', 'artikel', 'Artikel · factsheet' ),
+			array( 'Vergoedingen & privacy EDO-team', 'document', 'Document · 320 KB · PDF' ),
+		);
+
+		$rows = array();
+		foreach ( $raw as $i => $r ) {
+			$rows[] = array(
+				'id'        => 'sample-d' . ( $i + 1 ),
+				'title'     => $r[0],
+				'cat'       => $r[1],
+				'short'     => self::doc_short( $r[1] ),
+				'meta'      => $r[2],
+				'is_sample' => true,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Sample team members.
+	 *
+	 * @return array
+	 */
+	private static function sample_members() {
+		$raw = array(
+			array( 'Raymond Aronds', 'Founder', array( 'Strategie', 'Beleid' ), 'Ma–Vr' ),
+			array( 'Roger Stassen', 'Coördinator', array( 'Planning', 'Trainingen' ), 'Ma–Do' ),
+			array( 'Mahmudul Hoque', 'Web Manager', array( 'Online', 'Communicatie' ), 'Flexibel' ),
+			array( 'Sanne de Vries', 'Ervaringsdeskundige', array( 'Vroegsignalering', 'Jongeren' ), 'Di–Do' ),
+			array( 'Youssef El Amrani', 'Ervaringsdeskundige', array( 'Online gokken', 'Storytelling' ), 'Wo–Vr' ),
+			array( 'Linda Beumer', 'Ervaringsdeskundige', array( 'Herstel', 'Naasten' ), 'Ma, Di' ),
+		);
+
+		$rows = array();
+		foreach ( $raw as $i => $r ) {
+			$rows[] = array(
+				'id'        => 'sample-m' . ( $i + 1 ),
+				'name'      => $r[0],
+				'role'      => $r[1],
+				'tags'      => $r[2],
+				'avail'     => $r[3],
 				'is_sample' => true,
 			);
 		}

@@ -45,5 +45,16 @@ class EDO_Assets {
 			array( 'edo-google-fonts' ),
 			$version
 		);
+
+		$js_path    = EDO_PORTAL_DIR . 'assets/js/portal.js';
+		$js_version = file_exists( $js_path ) ? (string) filemtime( $js_path ) : EDO_PORTAL_VERSION;
+
+		wp_enqueue_script(
+			'edo-portal',
+			EDO_PORTAL_URL . 'assets/js/portal.js',
+			array(),
+			$js_version,
+			true
+		);
 	}
 }

@@ -44,10 +44,10 @@
 .edo-body * {
 	box-sizing: border-box;
 }
-/* Note: no `color` here on purpose — each button component sets its own color,
-   and an element+class reset would otherwise out-specify those classes. */
+/* Base element resets are wrapped in :where() so they carry ZERO specificity —
+   component classes (.edo-btn, .edo-iconbtn, .edo-link…) then always win. */
 
-.edo-body button {
+:where(.edo-body button) {
     font-family: inherit;
     cursor: pointer;
     border: none;
@@ -56,14 +56,14 @@
     padding: 0;
     color: var(--edo-green);
 }
-.edo-body button[type="submit"] { 
+:where(.edo-body button[type="submit"]) { 
     padding: 16px; 
 }
 .edo-body input,
 .edo-body textarea {
 	font-family: inherit;
 }
-.edo-body a {
+:where(.edo-body a) {
 	color: inherit;
 	text-decoration: none;
 }
@@ -305,6 +305,7 @@
 	align-items: center;
 	justify-content: center;
 	color: var(--edo-soft);
+	padding: 0!important;
 }
 .edo-iconbtn--plain {
 	background: none;
@@ -667,6 +668,516 @@
 	margin-bottom: 16px;
 }
 
+/* ---------- Shared grids & info rows ---------- */
+.edo-grid2 {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+.edo-irow {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 13px;
+	color: var(--edo-soft);
+}
+.edo-irow__ic {
+	color: var(--edo-green);
+	display: flex;
+	flex: none;
+}
+.edo-tag {
+	flex: none;
+	font-size: 10.5px;
+	font-weight: 700;
+	padding: 4px 9px;
+	border-radius: 999px;
+	white-space: nowrap;
+	background: #eef1f4;
+	color: var(--edo-soft);
+}
+.edo-tag--new {
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+.edo-tag--urgent {
+	background: #fbe7e8;
+	color: var(--edo-red);
+}
+
+/* ---------- Assignments ---------- */
+.edo-acard {
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+.edo-acard__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 10px;
+}
+.edo-acard__head h3 {
+	font-size: 15.5px;
+	font-weight: 700;
+	color: var(--edo-title);
+	line-height: 1.35;
+}
+.edo-acard__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 9px;
+}
+.edo-acard__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding-top: 13px;
+	border-top: 1px solid var(--edo-divider);
+}
+.edo-comp__label {
+	font-size: 10.5px;
+	color: var(--edo-muted);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+}
+.edo-comp strong {
+	display: block;
+	font-size: 15px;
+	color: var(--edo-title);
+}
+.edo-pillbtn {
+	flex: none;
+	font-size: 12.5px;
+	font-weight: 700;
+	padding: 10px 15px;
+	border-radius: 999px;
+	background: var(--edo-green);
+	color: #fff;
+}
+.edo-pillbtn:hover {
+	background: var(--edo-green-hover);
+}
+
+/* ---------- Trainings ---------- */
+.edo-tcard {
+	padding: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+}
+.edo-tcard__top {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.edo-mode {
+	font-size: 10.5px;
+	font-weight: 700;
+	padding: 4px 9px;
+	border-radius: 999px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+.edo-mode--online {
+	background: #eaf0f5;
+	color: #3b5b7a;
+}
+.edo-spots {
+	font-size: 11.5px;
+	color: var(--edo-muted);
+	font-weight: 600;
+}
+.edo-tcard__title {
+	font-size: 15.5px;
+	font-weight: 700;
+	color: var(--edo-title);
+	line-height: 1.35;
+}
+.edo-tcard__subject {
+	margin-top: 6px;
+	font-size: 13px;
+	color: var(--edo-soft-2);
+	line-height: 1.45;
+}
+.edo-tcard__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.edo-blockbtn {
+	margin-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	padding: 11px;
+	border-radius: 11px;
+	background: var(--edo-green);
+	color: #fff;
+	width: 100%;
+}
+.edo-blockbtn:hover {
+	background: var(--edo-green-hover);
+}
+
+/* ---------- Documents ---------- */
+.edo-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 18px;
+}
+.edo-chip {
+	font-size: 12.5px;
+	font-weight: 700;
+	padding: 8px 15px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--edo-soft);
+	border: 1px solid #e2e7e3;
+}
+.edo-chip:hover {
+	border-color: var(--edo-green);
+	color: var(--edo-green);
+}
+.edo-chip.is-active {
+	background: var(--edo-green);
+	color: #fff;
+	border-color: var(--edo-green);
+}
+.edo-doclist {
+	display: flex;
+	flex-direction: column;
+	gap: 11px;
+}
+.edo-doc {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 13px 15px;
+}
+.edo-doc__tile {
+	flex: none;
+	width: 46px;
+	height: 46px;
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.3px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+.edo-doc__tile--artikel {
+	background: #eaf0f5;
+	color: #3b5b7a;
+}
+.edo-doc__tile--video {
+	background: #f6ecee;
+	color: var(--edo-red);
+}
+.edo-doc__tile--beleid {
+	background: #f1eee6;
+	color: #8a7636;
+}
+.edo-doc__body {
+	flex: 1;
+	min-width: 0;
+}
+.edo-doc__body h3 {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--edo-title);
+	line-height: 1.3;
+}
+.edo-doc__body p {
+	margin-top: 3px;
+	font-size: 12px;
+	color: var(--edo-muted);
+}
+.edo-doc__dl {
+	flex: none;
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.edo-doc__dl:hover {
+	background: #def0e3;
+}
+
+/* ---------- Announcements (full) ---------- */
+.edo-anclist {
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+}
+.edo-anc {
+	display: flex;
+	gap: 15px;
+	padding: 18px;
+}
+.edo-anc__icon {
+	flex: none;
+	width: 42px;
+	height: 42px;
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+.edo-anc__icon--important {
+	background: #fbe7e8;
+	color: var(--edo-red);
+}
+.edo-anc__body {
+	flex: 1;
+	min-width: 0;
+}
+.edo-anc__head {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	margin-bottom: 5px;
+}
+.edo-badge-important {
+	font-size: 10px;
+	font-weight: 800;
+	padding: 3px 8px;
+	border-radius: 999px;
+	background: #fbe7e8;
+	color: var(--edo-red);
+	text-transform: uppercase;
+	letter-spacing: 0.4px;
+}
+.edo-anc__date {
+	font-size: 11.5px;
+	color: var(--edo-muted);
+	font-weight: 600;
+}
+.edo-anc__body h3 {
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--edo-title);
+	line-height: 1.35;
+}
+.edo-anc__body p {
+	margin-top: 6px;
+	font-size: 13px;
+	color: var(--edo-soft-2);
+	line-height: 1.5;
+}
+
+/* ---------- Members ---------- */
+.edo-mem-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+.edo-mem {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+.edo-avatar--lg {
+	width: 74px;
+	height: 74px;
+	font-size: 22px;
+	margin-bottom: 12px;
+}
+.edo-avatar--xl {
+	width: 104px;
+	height: 104px;
+	font-size: 30px;
+	margin-bottom: 14px;
+}
+.edo-mem h3 {
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--edo-title);
+}
+.edo-mem__role {
+	font-size: 12.5px;
+	color: var(--edo-green);
+	font-weight: 600;
+	margin-top: 2px;
+}
+.edo-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	justify-content: center;
+	margin-top: 12px;
+}
+.edo-mtag {
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 9px;
+	border-radius: 999px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+.edo-mem__avail {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 12px;
+	font-size: 11.5px;
+	color: var(--edo-muted);
+	font-weight: 600;
+}
+
+/* ---------- Profile ---------- */
+.edo-prof-grid {
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	gap: 18px;
+	align-items: start;
+}
+.edo-prof-card {
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+.edo-prof-card h2 {
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--edo-title);
+}
+.edo-prof__role {
+	font-size: 13px;
+	color: var(--edo-green);
+	font-weight: 600;
+	margin-top: 3px;
+}
+.edo-prof__status {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-top: 14px;
+	font-size: 12.5px;
+	color: var(--edo-soft);
+	font-weight: 600;
+	background: var(--edo-tint);
+	padding: 7px 13px;
+	border-radius: 999px;
+}
+.edo-prof__status span {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--edo-green);
+}
+.edo-prof__col {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.edo-pcard {
+	padding: 20px;
+}
+.edo-pcard h3 {
+	font-size: 13px;
+	font-weight: 800;
+	color: var(--edo-title);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin-bottom: 10px;
+}
+.edo-pcard p {
+	font-size: 14px;
+	color: var(--edo-soft);
+	line-height: 1.6;
+}
+.edo-xtags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.edo-xtag {
+	font-size: 12.5px;
+	font-weight: 600;
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+
+/* ---------- Contact ---------- */
+.edo-cinfo {
+	padding: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.edo-cinfo h3 {
+	font-size: 15px;
+	font-weight: 800;
+	color: var(--edo-title);
+}
+.edo-cinfo__row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 13.5px;
+	color: var(--edo-soft);
+}
+.edo-cinfo__icon {
+	flex: none;
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.edo-form {
+	padding: 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.edo-form h3 {
+	font-size: 15px;
+	font-weight: 800;
+	color: var(--edo-title);
+}
+.edo-input,
+.edo-textarea {
+	width: 100%;
+	padding: 11px 13px;
+	border-radius: 11px;
+	border: 1px solid var(--edo-field-bd);
+	background: #fbfcfb;
+	font-size: 13.5px;
+	outline: none;
+	color: var(--edo-text);
+}
+.edo-textarea {
+	resize: vertical;
+	min-height: 110px;
+}
+.edo-input:focus,
+.edo-textarea:focus {
+	border-color: var(--edo-green);
+}
+
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
 	.edo-sidebar {
@@ -709,6 +1220,11 @@
 		grid-template-columns: 1fr;
 	}
 	.edo-dashgrid {
+		grid-template-columns: 1fr;
+	}
+	.edo-grid2,
+	.edo-mem-grid,
+	.edo-prof-grid {
 		grid-template-columns: 1fr;
 	}
 
