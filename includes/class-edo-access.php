@@ -23,6 +23,22 @@ class EDO_Access {
 	public static function init() {
 		add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), 20, 3 );
 		add_action( 'after_setup_theme', array( __CLASS__, 'maybe_hide_admin_bar' ) );
+		add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
+	}
+
+	/**
+	 * Keep failed logins that came from the portal on the portal's own login
+	 * screen (with an error), instead of the default wp-login.php page.
+	 *
+	 * @param string $username Attempted username (unused).
+	 */
+	public static function login_failed( $username ) {
+		// Only intercept submissions from our portal login form.
+		if ( empty( $_POST['edo_login'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- core handles auth; this only routes the error page.
+			return;
+		}
+		wp_safe_redirect( add_query_arg( 'login', 'failed', edo_view_url( 'dashboard' ) ) );
+		exit;
 	}
 
 	/**

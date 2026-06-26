@@ -36,11 +36,14 @@ class EDO_Assets {
 			null
 		);
 
+		$css_path = EDO_PORTAL_DIR . 'assets/css/portal.css';
+		$version  = file_exists( $css_path ) ? (string) filemtime( $css_path ) : EDO_PORTAL_VERSION;
+
 		wp_enqueue_style(
 			'edo-portal',
 			EDO_PORTAL_URL . 'assets/css/portal.css',
 			array( 'edo-google-fonts' ),
-			EDO_PORTAL_VERSION
+			$version
 		);
 	}
 }

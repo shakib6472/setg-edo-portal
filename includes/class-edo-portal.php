@@ -72,7 +72,7 @@ final class EDO_Portal {
 	 * Load translations (Dutch is the default UI language; strings stay translatable).
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'setg-edo-portal', false, dirname( plugin_basename( EDO_PORTAL_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'setg', false, dirname( plugin_basename( EDO_PORTAL_FILE ) ) . '/languages' );
 	}
 
 	/**

@@ -24,7 +24,7 @@ class EDO_Roles {
 	public static function add_role() {
 		add_role(
 			self::ROLE,
-			__( 'EDO-lid', 'setg-edo-portal' ),
+			__( 'EDO-lid', 'setg' ),
 			array(
 				'read'             => true,
 				self::CAP_ACCESS   => true,

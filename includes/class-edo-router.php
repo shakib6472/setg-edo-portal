@@ -62,6 +62,9 @@ class EDO_Router {
 			return;
 		}
 
+		// The portal is a standalone full-screen app — never show the WP admin bar.
+		add_filter( 'show_admin_bar', '__return_false' );
+
 		// Not logged in, or not allowed in → show the login screen.
 		if ( ! is_user_logged_in() || ! EDO_Roles::user_can_access() ) {
 			status_header( is_user_logged_in() ? 403 : 200 );

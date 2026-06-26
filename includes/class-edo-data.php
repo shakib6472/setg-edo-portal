@@ -90,7 +90,7 @@ class EDO_Data {
 				'id'        => $p->ID,
 				'title'     => get_the_title( $p ),
 				'body'      => wp_strip_all_tags( get_the_excerpt( $p ) ),
-				'date'      => human_time_diff( get_post_time( 'U', true, $p ), current_time( 'timestamp', true ) ) . ' ' . __( 'geleden', 'setg-edo-portal' ),
+				'date'      => human_time_diff( get_post_time( 'U', true, $p ), time() ) . ' ' . __( 'geleden', 'setg' ),
 				'important' => (bool) get_post_meta( $p->ID, 'important', true ),
 				'is_sample' => false,
 			);

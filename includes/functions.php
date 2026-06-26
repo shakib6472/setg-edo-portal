@@ -61,37 +61,37 @@ function edo_nav_items() {
 	return array(
 		array(
 			'key'   => 'dashboard',
-			'label' => __( 'Dashboard', 'setg-edo-portal' ),
+			'label' => __( 'Dashboard', 'setg' ),
 			'icon'  => 'dashboard',
 		),
 		array(
 			'key'   => 'assignments',
-			'label' => __( 'Opdrachten', 'setg-edo-portal' ),
+			'label' => __( 'Opdrachten', 'setg' ),
 			'icon'  => 'assignments',
 		),
 		array(
 			'key'   => 'training',
-			'label' => __( 'Trainingen', 'setg-edo-portal' ),
+			'label' => __( 'Trainingen', 'setg' ),
 			'icon'  => 'training',
 		),
 		array(
 			'key'   => 'documents',
-			'label' => __( 'Documenten', 'setg-edo-portal' ),
+			'label' => __( 'Documenten', 'setg' ),
 			'icon'  => 'documents',
 		),
 		array(
 			'key'   => 'announcements',
-			'label' => __( 'Mededelingen', 'setg-edo-portal' ),
+			'label' => __( 'Mededelingen', 'setg' ),
 			'icon'  => 'announcements',
 		),
 		array(
 			'key'   => 'members',
-			'label' => __( 'Leden', 'setg-edo-portal' ),
+			'label' => __( 'Leden', 'setg' ),
 			'icon'  => 'members',
 		),
 		array(
 			'key'   => 'contact',
-			'label' => __( 'Contact', 'setg-edo-portal' ),
+			'label' => __( 'Contact', 'setg' ),
 			'icon'  => 'contact',
 		),
 	);
@@ -105,14 +105,14 @@ function edo_nav_items() {
  */
 function edo_view_title( $view ) {
 	$titles = array(
-		'dashboard'     => __( 'Dashboard', 'setg-edo-portal' ),
-		'assignments'   => __( 'Opdrachten', 'setg-edo-portal' ),
-		'training'      => __( 'Trainingen', 'setg-edo-portal' ),
-		'documents'     => __( 'Documenten', 'setg-edo-portal' ),
-		'announcements' => __( 'Mededelingen', 'setg-edo-portal' ),
-		'members'       => __( 'Leden', 'setg-edo-portal' ),
-		'profile'       => __( 'Mijn profiel', 'setg-edo-portal' ),
-		'contact'       => __( 'Contact', 'setg-edo-portal' ),
+		'dashboard'     => __( 'Dashboard', 'setg' ),
+		'assignments'   => __( 'Opdrachten', 'setg' ),
+		'training'      => __( 'Trainingen', 'setg' ),
+		'documents'     => __( 'Documenten', 'setg' ),
+		'announcements' => __( 'Mededelingen', 'setg' ),
+		'members'       => __( 'Leden', 'setg' ),
+		'profile'       => __( 'Mijn profiel', 'setg' ),
+		'contact'       => __( 'Contact', 'setg' ),
 	);
 	return isset( $titles[ $view ] ) ? $titles[ $view ] : '';
 }

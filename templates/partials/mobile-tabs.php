@@ -14,31 +14,31 @@ $edo_tabs = array(
 	array(
 		'key'   => 'dashboard',
 		'icon'  => 'dashboard',
-		'label' => __( 'Start', 'setg-edo-portal' ),
+		'label' => __( 'Start', 'setg' ),
 	),
 	array(
 		'key'   => 'assignments',
 		'icon'  => 'assignments',
-		'label' => __( 'Opdrachten', 'setg-edo-portal' ),
+		'label' => __( 'Opdrachten', 'setg' ),
 	),
 	array(
 		'key'   => 'training',
 		'icon'  => 'training',
-		'label' => __( 'Training', 'setg-edo-portal' ),
+		'label' => __( 'Training', 'setg' ),
 	),
 	array(
 		'key'   => 'documents',
 		'icon'  => 'documents',
-		'label' => __( 'Documenten', 'setg-edo-portal' ),
+		'label' => __( 'Documenten', 'setg' ),
 	),
 	array(
 		'key'   => 'profile',
 		'icon'  => 'profile',
-		'label' => __( 'Profiel', 'setg-edo-portal' ),
+		'label' => __( 'Profiel', 'setg' ),
 	),
 );
 ?>
-<nav class="edo-tabbar" aria-label="<?php esc_attr_e( 'Navigatie', 'setg-edo-portal' ); ?>">
+<nav class="edo-tabbar" aria-label="<?php esc_attr_e( 'Navigatie', 'setg' ); ?>">
 	<?php foreach ( $edo_tabs as $tab ) : ?>
 		<a
 			href="<?php echo esc_url( edo_view_url( $tab['key'] ) ); ?>"

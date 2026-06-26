@@ -14,7 +14,7 @@ $edo_user     = wp_get_current_user();
 $edo_name     = $edo_user->display_name ? $edo_user->display_name : $edo_user->user_login;
 $edo_subtitle = get_user_meta( $edo_user->ID, 'edo_function', true );
 if ( ! $edo_subtitle ) {
-	$edo_subtitle = __( 'EDO-teamlid', 'setg-edo-portal' );
+	$edo_subtitle = __( 'EDO-teamlid', 'setg' );
 }
 ?>
 <aside class="edo-sidebar">
@@ -23,9 +23,9 @@ if ( ! $edo_subtitle ) {
 		<img src="<?php echo esc_url( EDO_PORTAL_URL . 'assets/img/setg-logo.png' ); ?>" alt="SETG" />
 	</div>
 
-	<span class="edo-sidebar__label"><?php esc_html_e( 'Menu', 'setg-edo-portal' ); ?></span>
+	<span class="edo-sidebar__label"><?php esc_html_e( 'Menu', 'setg' ); ?></span>
 
-	<nav class="edo-nav" aria-label="<?php esc_attr_e( 'Hoofdnavigatie', 'setg-edo-portal' ); ?>">
+	<nav class="edo-nav" aria-label="<?php esc_attr_e( 'Hoofdnavigatie', 'setg' ); ?>">
 		<?php foreach ( edo_nav_items() as $item ) : ?>
 			<a
 				href="<?php echo esc_url( edo_view_url( $item['key'] ) ); ?>"
@@ -48,7 +48,7 @@ if ( ! $edo_subtitle ) {
 		</a>
 		<a href="<?php echo esc_url( wp_logout_url( home_url( '/portal/' ) ) ); ?>" class="edo-logout">
 			<?php echo edo_icon( 'logout', 15 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
-			<?php esc_html_e( 'Uitloggen', 'setg-edo-portal' ); ?>
+			<?php esc_html_e( 'Uitloggen', 'setg' ); ?>
 		</a>
 	</div>
 

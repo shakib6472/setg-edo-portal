@@ -31,47 +31,48 @@ $edo_error    = isset( $_GET['login'] ) && 'failed' === $_GET['login']; // phpcs
 				<img src="<?php echo esc_url( EDO_PORTAL_URL . 'assets/img/setg-logo.png' ); ?>" alt="SETG" />
 			</div>
 
-			<h1 class="edo-login__title"><?php esc_html_e( 'EDO Community Portal', 'setg-edo-portal' ); ?></h1>
-			<p class="edo-login__subtitle"><?php esc_html_e( 'Besloten omgeving voor het EDO-team van SETG', 'setg-edo-portal' ); ?></p>
+			<h1 class="edo-login__title"><?php esc_html_e( 'EDO Community Portal', 'setg' ); ?></h1>
+			<p class="edo-login__subtitle"><?php esc_html_e( 'Besloten omgeving voor het EDO-team van SETG', 'setg' ); ?></p>
 
 			<?php if ( $pending ) : ?>
 
 				<div class="edo-login__notice">
-					<?php esc_html_e( 'Je account wacht nog op goedkeuring door SETG. Je ontvangt bericht zodra je toegang hebt.', 'setg-edo-portal' ); ?>
+					<?php esc_html_e( 'Je account wacht nog op goedkeuring door SETG. Je ontvangt bericht zodra je toegang hebt.', 'setg' ); ?>
 				</div>
 				<a class="edo-btn edo-btn--block" href="<?php echo esc_url( wp_logout_url( home_url( '/portal/' ) ) ); ?>">
-					<?php esc_html_e( 'Uitloggen', 'setg-edo-portal' ); ?>
+					<?php esc_html_e( 'Uitloggen', 'setg' ); ?>
 				</a>
 
 			<?php else : ?>
 
 				<?php if ( $edo_error ) : ?>
-					<div class="edo-login__error"><?php esc_html_e( 'Inloggen mislukt. Controleer je e-mailadres en wachtwoord.', 'setg-edo-portal' ); ?></div>
+					<div class="edo-login__error"><?php esc_html_e( 'Inloggen mislukt. Controleer je e-mailadres en wachtwoord.', 'setg' ); ?></div>
 				<?php endif; ?>
 
 				<form action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post" class="edo-login__form">
 
-					<label for="edo-user"><?php esc_html_e( 'E-mailadres', 'setg-edo-portal' ); ?></label>
+					<label for="edo-user"><?php esc_html_e( 'E-mailadres', 'setg' ); ?></label>
 					<input type="text" name="log" id="edo-user" autocomplete="username" placeholder="jij@voorbeeld.nl" required />
 
-					<label for="edo-pass"><?php esc_html_e( 'Wachtwoord', 'setg-edo-portal' ); ?></label>
+					<label for="edo-pass"><?php esc_html_e( 'Wachtwoord', 'setg' ); ?></label>
 					<input type="password" name="pwd" id="edo-pass" autocomplete="current-password" placeholder="••••••••" required />
 
 					<div class="edo-login__forgot">
-						<a href="<?php echo esc_url( wp_lostpassword_url( $edo_redirect ) ); ?>"><?php esc_html_e( 'Wachtwoord vergeten?', 'setg-edo-portal' ); ?></a>
+						<a href="<?php echo esc_url( wp_lostpassword_url( $edo_redirect ) ); ?>"><?php esc_html_e( 'Wachtwoord vergeten?', 'setg' ); ?></a>
 					</div>
 
 					<input type="hidden" name="redirect_to" value="<?php echo esc_url( $edo_redirect ); ?>" />
 					<input type="hidden" name="testcookie" value="1" />
+					<input type="hidden" name="edo_login" value="1" />
 
-					<button type="submit" class="edo-btn edo-btn--block"><?php esc_html_e( 'Inloggen', 'setg-edo-portal' ); ?></button>
+					<button type="submit" class="edo-btn edo-btn--block"><?php esc_html_e( 'Inloggen', 'setg' ); ?></button>
 				</form>
 
 			<?php endif; ?>
 
 			<div class="edo-login__secure">
 				<?php echo edo_icon( 'lock', 13 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
-				<span><?php esc_html_e( 'Beveiligde omgeving · alleen voor leden', 'setg-edo-portal' ); ?></span>
+				<span><?php esc_html_e( 'Beveiligde omgeving · alleen voor leden', 'setg' ); ?></span>
 			</div>
 
 		</div>

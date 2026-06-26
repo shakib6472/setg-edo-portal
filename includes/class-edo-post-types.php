@@ -81,11 +81,11 @@ class EDO_Post_Types {
 	 */
 	private static function register_assignment() {
 		$labels = array(
-			'name'          => __( 'Opdrachten', 'setg-edo-portal' ),
-			'singular_name' => __( 'Opdracht', 'setg-edo-portal' ),
-			'add_new_item'  => __( 'Nieuwe opdracht', 'setg-edo-portal' ),
-			'edit_item'     => __( 'Opdracht bewerken', 'setg-edo-portal' ),
-			'menu_name'     => __( 'EDO · Opdrachten', 'setg-edo-portal' ),
+			'name'          => __( 'Opdrachten', 'setg' ),
+			'singular_name' => __( 'Opdracht', 'setg' ),
+			'add_new_item'  => __( 'Nieuwe opdracht', 'setg' ),
+			'edit_item'     => __( 'Opdracht bewerken', 'setg' ),
+			'menu_name'     => __( 'EDO · Opdrachten', 'setg' ),
 		);
 
 		register_post_type(
@@ -111,11 +111,11 @@ class EDO_Post_Types {
 	 */
 	private static function register_training() {
 		$labels = array(
-			'name'          => __( 'Trainingen', 'setg-edo-portal' ),
-			'singular_name' => __( 'Training', 'setg-edo-portal' ),
-			'add_new_item'  => __( 'Nieuwe training', 'setg-edo-portal' ),
-			'edit_item'     => __( 'Training bewerken', 'setg-edo-portal' ),
-			'menu_name'     => __( 'EDO · Trainingen', 'setg-edo-portal' ),
+			'name'          => __( 'Trainingen', 'setg' ),
+			'singular_name' => __( 'Training', 'setg' ),
+			'add_new_item'  => __( 'Nieuwe training', 'setg' ),
+			'edit_item'     => __( 'Training bewerken', 'setg' ),
+			'menu_name'     => __( 'EDO · Trainingen', 'setg' ),
 		);
 
 		register_post_type(
@@ -142,11 +142,11 @@ class EDO_Post_Types {
 	 */
 	private static function register_document() {
 		$labels = array(
-			'name'          => __( 'Documenten', 'setg-edo-portal' ),
-			'singular_name' => __( 'Document', 'setg-edo-portal' ),
-			'add_new_item'  => __( 'Nieuw document', 'setg-edo-portal' ),
-			'edit_item'     => __( 'Document bewerken', 'setg-edo-portal' ),
-			'menu_name'     => __( 'EDO · Documenten', 'setg-edo-portal' ),
+			'name'          => __( 'Documenten', 'setg' ),
+			'singular_name' => __( 'Document', 'setg' ),
+			'add_new_item'  => __( 'Nieuw document', 'setg' ),
+			'edit_item'     => __( 'Document bewerken', 'setg' ),
+			'menu_name'     => __( 'EDO · Documenten', 'setg' ),
 		);
 
 		register_post_type(
@@ -170,11 +170,11 @@ class EDO_Post_Types {
 	 */
 	private static function register_announcement() {
 		$labels = array(
-			'name'          => __( 'Mededelingen', 'setg-edo-portal' ),
-			'singular_name' => __( 'Mededeling', 'setg-edo-portal' ),
-			'add_new_item'  => __( 'Nieuwe mededeling', 'setg-edo-portal' ),
-			'edit_item'     => __( 'Mededeling bewerken', 'setg-edo-portal' ),
-			'menu_name'     => __( 'EDO · Mededelingen', 'setg-edo-portal' ),
+			'name'          => __( 'Mededelingen', 'setg' ),
+			'singular_name' => __( 'Mededeling', 'setg' ),
+			'add_new_item'  => __( 'Nieuwe mededeling', 'setg' ),
+			'edit_item'     => __( 'Mededeling bewerken', 'setg' ),
+			'menu_name'     => __( 'EDO · Mededelingen', 'setg' ),
 		);
 
 		register_post_type(
