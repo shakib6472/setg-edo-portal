@@ -440,6 +440,7 @@
 	height: 48px;
 	border-radius: 13px;
 	background: var(--edo-tint);
+	color: var(--edo-green);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -1178,6 +1179,343 @@
 	border-color: var(--edo-green);
 }
 
+/* ---------- Courses (TutorLMS) ---------- */
+.edo-toolbar {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 16px;
+}
+.edo-linkbtn {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--edo-green);
+	background: #fff;
+	border: 1px solid #e2e7e3;
+	padding: 8px 14px;
+	border-radius: 999px;
+}
+.edo-linkbtn:hover {
+	border-color: var(--edo-green);
+}
+
+.edo-course-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+.edo-course {
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+.edo-course:hover {
+	box-shadow: 0 12px 30px -14px rgba(27, 94, 59, 0.3);
+}
+.edo-course__thumb {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	background: var(--edo-tint) center / cover no-repeat;
+	color: var(--edo-green);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.edo-course__badge {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 11px;
+	font-weight: 700;
+	padding: 4px 10px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--edo-green);
+	box-shadow: 0 2px 8px rgba(16, 40, 28, 0.18);
+}
+.edo-course__body {
+	padding: 16px 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	flex: 1;
+}
+.edo-course__body h3 {
+	font-size: 15.5px;
+	font-weight: 700;
+	color: var(--edo-title);
+	line-height: 1.35;
+}
+.edo-course__body p {
+	font-size: 13px;
+	color: var(--edo-soft-2);
+	line-height: 1.45;
+	flex: 1;
+}
+.edo-course__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 4px;
+}
+.edo-course__meta {
+	font-size: 12px;
+	color: var(--edo-muted);
+	font-weight: 600;
+}
+.edo-course__cta {
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--edo-green);
+}
+
+.edo-emptybox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	gap: 12px;
+	padding: 48px 24px;
+}
+.edo-emptybox svg {
+	color: var(--edo-green);
+}
+.edo-emptybox p {
+	font-size: 14px;
+	color: var(--edo-soft);
+	max-width: 420px;
+}
+.edo-emptybox a {
+	color: var(--edo-green);
+	font-weight: 700;
+}
+
+/* ---------- Document view affordance ---------- */
+.edo-doc__view {
+	flex: none;
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	background: var(--edo-tint);
+	color: var(--edo-green);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.edo-doc__view--muted {
+	background: #f1f5f2;
+	color: var(--edo-muted);
+}
+.edo-doc--open {
+	cursor: pointer;
+}
+.edo-doc--open:hover {
+	box-shadow: 0 10px 26px -12px rgba(27, 94, 59, 0.3);
+}
+.edo-doc--open:hover .edo-doc__view {
+	background: #def0e3;
+}
+.edo-doc--open:focus-visible {
+	outline: 2px solid var(--edo-green);
+	outline-offset: 2px;
+}
+
+/* ---------- Modal (document preview) ---------- */
+.edo-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+.edo-modal[hidden] {
+	display: none;
+}
+.edo-modal__overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(16, 40, 28, 0.55);
+}
+.edo-modal__dialog {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 900px;
+	max-height: 90vh;
+	background: #fff;
+	border-radius: 18px;
+	box-shadow: 0 30px 80px -20px rgba(16, 40, 28, 0.6);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.edo-modal__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--edo-card-bd);
+}
+.edo-modal__title {
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--edo-title);
+	line-height: 1.3;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.edo-modal__actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: none;
+}
+.edo-modal__open {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--edo-green);
+	background: var(--edo-tint);
+	padding: 8px 13px;
+	border-radius: 10px;
+}
+.edo-modal__open:hover {
+	background: #def0e3;
+}
+.edo-modal__close {
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--edo-soft);
+	background: var(--edo-search);
+}
+.edo-modal__close:hover {
+	color: var(--edo-title);
+}
+.edo-modal__body {
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+	background: #f4f7f4;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.edo-preview-frame {
+	width: 100%;
+	height: 72vh;
+	border: 0;
+	background: #fff;
+}
+.edo-preview-img {
+	max-width: 100%;
+	max-height: 82vh;
+	display: block;
+}
+.edo-preview-video {
+	max-width: 100%;
+	max-height: 82vh;
+	background: #000;
+}
+.edo-preview-none {
+	padding: 48px 28px;
+	text-align: center;
+	color: var(--edo-soft);
+	font-size: 14px;
+	max-width: 420px;
+	line-height: 1.5;
+}
+
+/* ---------- Announcement (clickable + detail modal) ---------- */
+.edo-anc--open {
+	cursor: pointer;
+}
+.edo-anc--open:hover {
+	box-shadow: 0 10px 26px -12px rgba(27, 94, 59, 0.3);
+}
+.edo-anc--open:focus-visible {
+	outline: 2px solid var(--edo-green);
+	outline-offset: 2px;
+}
+.edo-anc__excerpt {
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.edo-anc__more {
+	flex: none;
+	align-self: center;
+	color: #c7d2cb;
+	display: flex;
+}
+.edo-anc--open:hover .edo-anc__more {
+	color: var(--edo-green);
+}
+
+.edo-modal__dialog--text {
+	max-width: 620px;
+}
+.edo-ancmodal__meta {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	padding: 14px 24px 0;
+}
+.edo-modal__body--text {
+	display: block;
+	text-align: left;
+	background: #fff;
+	padding: 14px 24px 24px;
+	overflow: auto;
+}
+.edo-modal__body--text p {
+	font-size: 14px;
+	line-height: 1.65;
+	color: var(--edo-soft);
+	margin: 0 0 12px;
+}
+.edo-modal__body--text p:last-child {
+	margin-bottom: 0;
+}
+.edo-modal__body--text a {
+	color: var(--edo-green);
+	font-weight: 600;
+}
+.edo-modal__body--text ul,
+.edo-modal__body--text ol {
+	margin: 0 0 12px 20px;
+	font-size: 14px;
+	line-height: 1.65;
+	color: var(--edo-soft);
+}
+.edo-modal__body--text h2,
+.edo-modal__body--text h3,
+.edo-modal__body--text h4 {
+	color: var(--edo-title);
+	margin: 4px 0 8px;
+	font-size: 15px;
+}
+.edo-modal__body--text img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 10px;
+	margin: 6px 0;
+}
+
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
 	.edo-sidebar {
@@ -1224,8 +1562,22 @@
 	}
 	.edo-grid2,
 	.edo-mem-grid,
-	.edo-prof-grid {
+	.edo-prof-grid,
+	.edo-course-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.edo-modal {
+		padding: 0;
+	}
+	.edo-modal__dialog {
+		max-width: 100%;
+		max-height: 100vh;
+		height: 100vh;
+		border-radius: 0;
+	}
+	.edo-preview-frame {
+		height: 78vh;
 	}
 
 	.edo-tabbar {

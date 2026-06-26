@@ -118,6 +118,61 @@ function edo_view_title( $view ) {
 }
 
 /**
+ * Whether TutorLMS is active. Trainings are powered by Tutor courses.
+ *
+ * @return bool
+ */
+function edo_tutor_active() {
+	return function_exists( 'tutor' ) && function_exists( 'tutor_utils' );
+}
+
+/**
+ * URL of the TutorLMS course archive ("alle cursussen").
+ *
+ * @return string
+ */
+function edo_courses_archive_url() {
+	if ( edo_tutor_active() && method_exists( tutor_utils(), 'course_archive_page_url' ) ) {
+		$url = tutor_utils()->course_archive_page_url();
+		if ( $url ) {
+			return $url;
+		}
+	}
+	$archive = get_post_type_archive_link( 'courses' );
+	return $archive ? $archive : home_url( '/courses/' );
+}
+
+/**
+ * Decide how a document URL can be previewed in the portal modal.
+ *
+ * @param string $url File or link URL.
+ * @return string One of: '' (none), 'pdf', 'image', 'video', 'embed', 'file'.
+ */
+function edo_preview_type( $url ) {
+	$url = (string) $url;
+	if ( '' === $url ) {
+		return '';
+	}
+	if ( preg_match( '~(youtube\.com|youtu\.be|vimeo\.com)~i', $url ) ) {
+		return 'embed';
+	}
+
+	$path = (string) wp_parse_url( $url, PHP_URL_PATH );
+	$ext  = strtolower( pathinfo( $path, PATHINFO_EXTENSION ) );
+
+	if ( 'pdf' === $ext ) {
+		return 'pdf';
+	}
+	if ( in_array( $ext, array( 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'avif' ), true ) ) {
+		return 'image';
+	}
+	if ( in_array( $ext, array( 'mp4', 'webm', 'ogg', 'ogv', 'mov' ), true ) ) {
+		return 'video';
+	}
+	return 'file';
+}
+
+/**
  * Return initials (max two letters) for an avatar fallback.
  *
  * @param string $name Full name.
@@ -177,6 +232,9 @@ function edo_icon( $name, $size = 19 ) {
 		'clock'         => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
 		'building'      => '<rect x="4" y="3" width="11" height="18" rx="1.5"/><path d="M15 8h4a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-4M8 7h3M8 11h3M8 15h3"/>',
 		'download'      => '<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>',
+		'eye'           => '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+		'close'         => '<path d="M6 6l12 12M18 6 6 18"/>',
+		'external'      => '<path d="M14 4h6v6M20 4l-9 9M19 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/>',
 		'profile'       => '<circle cx="12" cy="8" r="3.4"/><path d="M5 20a7 7 0 0 1 14 0"/>',
 		'lock'          => '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
 		'mail'          => '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/>',

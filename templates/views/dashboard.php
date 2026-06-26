@@ -31,9 +31,9 @@ $edo_sample  = ! empty( $edo_assign ) && ! empty( $edo_assign[0]['is_sample'] );
 	</div>
 	<div class="edo-card edo-stat">
 		<div class="edo-stat__icon"><?php echo edo_icon( 'training', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?></div>
-		<div class="edo-stat__num"><?php echo esc_html( $edo_counts['trainings'] ); ?></div>
-		<div class="edo-stat__label"><?php esc_html_e( 'Aankomende trainingen', 'setg' ); ?></div>
-		<div class="edo-stat__sub"><?php esc_html_e( 'Eerstvolgende: 25 juni', 'setg' ); ?></div>
+		<div class="edo-stat__num"><?php echo esc_html( $edo_counts['courses'] ); ?></div>
+		<div class="edo-stat__label"><?php esc_html_e( 'Beschikbare cursussen', 'setg' ); ?></div>
+		<div class="edo-stat__sub"><?php esc_html_e( 'In TutorLMS', 'setg' ); ?></div>
 	</div>
 	<div class="edo-card edo-stat">
 		<div class="edo-stat__icon"><?php echo edo_icon( 'documents', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?></div>
@@ -54,8 +54,12 @@ $edo_sample  = ! empty( $edo_assign ) && ! empty( $edo_assign[0]['is_sample'] );
 			<?php foreach ( $edo_assign as $a ) : ?>
 				<a class="edo-card edo-arow" href="<?php echo esc_url( edo_view_url( 'assignments' ) ); ?>">
 					<span class="edo-datechip">
-						<span class="edo-datechip__day"><?php echo esc_html( $a['day'] ); ?></span>
-						<span class="edo-datechip__mon"><?php echo esc_html( $a['mon'] ); ?></span>
+						<?php if ( ! empty( $a['day'] ) ) : ?>
+							<span class="edo-datechip__day"><?php echo esc_html( $a['day'] ); ?></span>
+							<span class="edo-datechip__mon"><?php echo esc_html( $a['mon'] ); ?></span>
+						<?php else : ?>
+							<?php echo edo_icon( 'calendar', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
+						<?php endif; ?>
 					</span>
 					<span class="edo-arow__body">
 						<h3><?php echo esc_html( $a['title'] ); ?></h3>

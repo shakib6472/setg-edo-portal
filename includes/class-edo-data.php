@@ -53,7 +53,7 @@ class EDO_Data {
 				'time'      => (string) get_post_meta( $p->ID, 'time_investment', true ),
 				'comp'      => (string) get_post_meta( $p->ID, 'compensation', true ),
 				'tag'       => (string) get_post_meta( $p->ID, 'status_tag', true ),
-				'tag_type'  => '',
+				'tag_type'  => (string) get_post_meta( $p->ID, 'status_type', true ),
 				'day'       => $dm['day'],
 				'mon'       => $dm['mon'],
 				'is_sample' => false,
@@ -90,6 +90,7 @@ class EDO_Data {
 				'id'        => $p->ID,
 				'title'     => get_the_title( $p ),
 				'body'      => wp_strip_all_tags( get_the_excerpt( $p ) ),
+				'full'      => get_post_field( 'post_content', $p ),
 				'date'      => human_time_diff( get_post_time( 'U', true, $p ), time() ) . ' ' . __( 'geleden', 'setg' ),
 				'important' => (bool) get_post_meta( $p->ID, 'important', true ),
 				'is_sample' => false,
@@ -160,12 +161,20 @@ class EDO_Data {
 		foreach ( $posts as $p ) {
 			$cat = (string) get_post_meta( $p->ID, 'doc_category', true );
 			$cat = $cat ? $cat : 'document';
+
+			$att_id = absint( get_post_meta( $p->ID, 'attachment_id', true ) );
+			$url    = $att_id ? wp_get_attachment_url( $att_id ) : '';
+			if ( ! $url ) {
+				$url = (string) get_post_meta( $p->ID, 'external_url', true );
+			}
+
 			$rows[] = array(
 				'id'        => $p->ID,
 				'title'     => get_the_title( $p ),
 				'cat'       => $cat,
 				'short'     => self::doc_short( $cat ),
 				'meta'      => (string) get_post_meta( $p->ID, 'meta_line', true ),
+				'url'       => $url ? $url : '',
 				'is_sample' => false,
 			);
 		}
@@ -193,16 +202,84 @@ class EDO_Data {
 		foreach ( $users as $u ) {
 			$role  = get_user_meta( $u->ID, 'edo_function', true );
 			$avail = get_user_meta( $u->ID, 'edo_availability', true );
+			$exp   = (string) get_user_meta( $u->ID, 'edo_expertise', true );
+			$tags  = $exp ? array_slice( array_filter( array_map( 'trim', explode( ',', $exp ) ) ), 0, 2 ) : array();
+
 			$rows[] = array(
 				'id'        => $u->ID,
 				'name'      => $u->display_name,
 				'role'      => $role ? $role : __( 'Ervaringsdeskundige', 'setg' ),
-				'tags'      => array(),
+				'tags'      => $tags,
 				'avail'     => $avail ? $avail : '—',
 				'is_sample' => false,
 			);
 		}
 		return $rows;
+	}
+
+	/**
+	 * TutorLMS courses for the Training view, newest first.
+	 *
+	 * Returns an empty array when Tutor is not active. Each row links to the
+	 * course's own single page (styled later, in the final pass).
+	 *
+	 * @param int $limit Max rows (0 = all).
+	 * @return array
+	 */
+	public static function courses( $limit = 0 ) {
+		if ( ! edo_tutor_active() ) {
+			return array();
+		}
+
+		$posts = get_posts(
+			array(
+				'post_type'   => tutor()->course_post_type,
+				'post_status' => 'publish',
+				'numberposts' => $limit > 0 ? $limit : -1,
+				'orderby'     => 'date',
+				'order'       => 'DESC',
+			)
+		);
+
+		$user_id = get_current_user_id();
+		$utils   = tutor_utils();
+
+		$rows = array();
+		foreach ( $posts as $p ) {
+			$enrolled = false;
+			if ( $user_id && method_exists( $utils, 'is_enrolled' ) ) {
+				$enrolled = (bool) $utils->is_enrolled( $p->ID, $user_id );
+			}
+
+			$lessons = 0;
+			if ( method_exists( $utils, 'get_lesson_count_by_course' ) ) {
+				$lessons = (int) $utils->get_lesson_count_by_course( $p->ID );
+			}
+
+			$rows[] = array(
+				'id'       => $p->ID,
+				'title'    => get_the_title( $p ),
+				'url'      => get_permalink( $p ),
+				'excerpt'  => wp_trim_words( wp_strip_all_tags( get_the_excerpt( $p ) ), 18 ),
+				'thumb'    => (string) get_the_post_thumbnail_url( $p, 'medium_large' ),
+				'lessons'  => $lessons,
+				'enrolled' => $enrolled,
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Number of published Tutor courses (0 when Tutor is inactive).
+	 *
+	 * @return int
+	 */
+	public static function courses_count() {
+		if ( ! edo_tutor_active() ) {
+			return 0;
+		}
+		$counts = wp_count_posts( tutor()->course_post_type );
+		return isset( $counts->publish ) ? (int) $counts->publish : 0;
 	}
 
 	/**
@@ -227,9 +304,10 @@ class EDO_Data {
 	 * @return array{assignments:int,trainings:int,documents:int}
 	 */
 	public static function counts() {
+		$courses = self::courses_count();
 		return array(
 			'assignments' => self::count_or( 'edo_assignment', 3 ),
-			'trainings'   => self::count_or( 'edo_training', 2 ),
+			'courses'     => $courses > 0 ? $courses : 2,
 			'documents'   => self::count_or( 'edo_document', 5 ),
 		);
 	}
@@ -325,6 +403,7 @@ class EDO_Data {
 				'id'        => 'sample-n' . ( $i + 1 ),
 				'title'     => $r[0],
 				'body'      => $r[1],
+				'full'      => $r[1],
 				'date'      => $r[2],
 				'important' => $r[3],
 				'is_sample' => true,
@@ -388,6 +467,7 @@ class EDO_Data {
 				'cat'       => $r[1],
 				'short'     => self::doc_short( $r[1] ),
 				'meta'      => $r[2],
+				'url'       => '',
 				'is_sample' => true,
 			);
 		}

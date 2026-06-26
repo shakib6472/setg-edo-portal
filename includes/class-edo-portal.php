@@ -52,6 +52,13 @@ final class EDO_Portal {
 		require_once EDO_PORTAL_DIR . 'includes/class-edo-router.php';
 		require_once EDO_PORTAL_DIR . 'includes/class-edo-assets.php';
 		require_once EDO_PORTAL_DIR . 'includes/class-edo-data.php';
+
+		// Admin-only subsystems.
+		if ( is_admin() ) {
+			require_once EDO_PORTAL_DIR . 'includes/class-edo-meta-boxes.php';
+			require_once EDO_PORTAL_DIR . 'includes/class-edo-admin-columns.php';
+			require_once EDO_PORTAL_DIR . 'includes/class-edo-user-fields.php';
+		}
 	}
 
 	/**
@@ -64,6 +71,12 @@ final class EDO_Portal {
 		EDO_Access::init();
 		EDO_Router::init();
 		EDO_Assets::init();
+
+		if ( is_admin() ) {
+			EDO_Meta_Boxes::init();
+			EDO_Admin_Columns::init();
+			EDO_User_Fields::init();
+		}
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 	}

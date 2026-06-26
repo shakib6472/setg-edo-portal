@@ -54,8 +54,22 @@ $edo_tile_class = static function ( $cat ) {
 	</div>
 
 	<div class="edo-doclist">
-		<?php foreach ( $edo_items as $d ) : ?>
-			<article class="edo-card edo-doc" data-cat="<?php echo esc_attr( $d['cat'] ); ?>">
+		<?php
+		foreach ( $edo_items as $d ) :
+			$edo_open  = ! empty( $d['url'] );
+			$edo_ptype = $edo_open ? edo_preview_type( $d['url'] ) : '';
+			?>
+			<article
+				class="edo-card edo-doc<?php echo $edo_open ? ' edo-doc--open' : ''; ?>"
+				data-cat="<?php echo esc_attr( $d['cat'] ); ?>"
+				<?php if ( $edo_open ) : ?>
+					data-edo-doc-open
+					data-url="<?php echo esc_url( $d['url'] ); ?>"
+					data-title="<?php echo esc_attr( $d['title'] ); ?>"
+					data-ptype="<?php echo esc_attr( $edo_ptype ); ?>"
+					role="button" tabindex="0"
+				<?php endif; ?>
+			>
 				<div class="<?php echo esc_attr( $edo_tile_class( $d['cat'] ) ); ?>"><?php echo esc_html( $d['short'] ); ?></div>
 				<div class="edo-doc__body">
 					<h3><?php echo esc_html( $d['title'] ); ?></h3>
@@ -63,13 +77,33 @@ $edo_tile_class = static function ( $cat ) {
 						<p><?php echo esc_html( $d['meta'] ); ?></p>
 					<?php endif; ?>
 				</div>
-				<button type="button" class="edo-doc__dl" aria-label="<?php esc_attr_e( 'Downloaden', 'setg' ); ?>">
-					<?php echo edo_icon( 'download', 17 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
-				</button>
+				<span class="edo-doc__view<?php echo $edo_open ? '' : ' edo-doc__view--muted'; ?>" aria-hidden="true">
+					<?php echo edo_icon( $edo_open ? 'eye' : 'download', 17 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
+				</span>
 			</article>
 		<?php endforeach; ?>
 	</div>
 
+</div>
+
+<!-- Document preview modal -->
+<div class="edo-modal" id="edo-doc-modal" hidden>
+	<div class="edo-modal__overlay" data-edo-close></div>
+	<div class="edo-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="edo-modal-title">
+		<div class="edo-modal__head">
+			<h3 class="edo-modal__title" id="edo-modal-title"></h3>
+			<div class="edo-modal__actions">
+				<a class="edo-modal__open" href="#" target="_blank" rel="noopener">
+					<?php echo edo_icon( 'external', 15 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
+					<span><?php esc_html_e( 'Openen', 'setg' ); ?></span>
+				</a>
+				<button type="button" class="edo-modal__close" data-edo-close aria-label="<?php esc_attr_e( 'Sluiten', 'setg' ); ?>">
+					<?php echo edo_icon( 'close', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
+				</button>
+			</div>
+		</div>
+		<div class="edo-modal__body" data-edo-modal-body></div>
+	</div>
 </div>
 
 <?php edo_get_template( 'partials/sample-note', array( 'items' => $edo_items ) ); ?>

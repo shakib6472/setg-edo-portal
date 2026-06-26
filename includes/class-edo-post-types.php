@@ -104,6 +104,7 @@ class EDO_Post_Types {
 		self::meta( 'edo_assignment', 'compensation' );
 		self::meta( 'edo_assignment', 'target_group' );
 		self::meta( 'edo_assignment', 'status_tag' );
+		self::meta( 'edo_assignment', 'status_type' );
 	}
 
 	/**
@@ -118,12 +119,20 @@ class EDO_Post_Types {
 			'menu_name'     => __( 'EDO · Trainingen', 'setg' ),
 		);
 
+		// Retired: trainings are now delivered via TutorLMS courses. The type stays
+		// registered (so any existing data survives) but is hidden from the admin
+		// so SETG manages courses in one place — TutorLMS.
 		register_post_type(
 			'edo_training',
 			self::base_args(
 				$labels,
 				array( 'title', 'editor', 'thumbnail' ),
-				array( 'menu_icon' => 'dashicons-welcome-learn-more' )
+				array(
+					'menu_icon'    => 'dashicons-welcome-learn-more',
+					'show_ui'      => false,
+					'show_in_menu' => false,
+					'show_in_rest' => false,
+				)
 			)
 		);
 
