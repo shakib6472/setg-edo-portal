@@ -346,6 +346,11 @@
 	font-size: 23px;
 	font-weight: 800;
 	color: var(--edo-title);
+	display: flex;
+	gap: 16px;
+}
+.edo-pagehead h1 img{
+	width: 24px;
 }
 .edo-pagehead p {
 	margin-top: 7px;
@@ -667,6 +672,20 @@
 	padding: 14px;
 	border-radius: 12px;
 	margin-bottom: 16px;
+}
+.edo-login .edo-login__card .edo-login__notice--warn {
+	background: #fef3c7;
+	color: #92400e;
+}
+.edo-login__switch {
+	margin: 16px 0 0;
+	text-align: center;
+	font-size: 13px;
+	color: var(--edo-soft-2);
+}
+.edo-login__switch a {
+	color: var(--edo-green);
+	font-weight: 700;
 }
 
 /* ---------- Shared grids & info rows ---------- */
