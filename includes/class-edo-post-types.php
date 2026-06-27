@@ -92,7 +92,7 @@ class EDO_Post_Types {
 			'edo_assignment',
 			self::base_args(
 				$labels,
-				array( 'title', 'editor', 'thumbnail' ),
+				array( 'title', 'editor', 'thumbnail', 'comments' ),
 				array( 'menu_icon' => 'dashicons-clipboard' )
 			)
 		);

@@ -59,7 +59,7 @@ $edo_items = EDO_Data::announcements();
 		<div class="edo-modal__head">
 			<h3 class="edo-modal__title" id="edo-anc-title"></h3>
 			<button type="button" class="edo-modal__close" data-edo-close aria-label="<?php esc_attr_e( 'Sluiten', 'setg' ); ?>">
-				<?php echo edo_icon( 'close', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
+				&times;
 			</button>
 		</div>
 		<div class="edo-ancmodal__meta" data-edo-anc-meta></div>

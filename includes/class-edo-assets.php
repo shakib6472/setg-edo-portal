@@ -19,6 +19,30 @@ class EDO_Assets {
 	 */
 	public static function init() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
+		// Run late so it catches everything the theme/other plugins enqueued.
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'isolate' ), 9999 );
+	}
+
+	/**
+	 * Keep the portal visually isolated: on portal requests, drop every front-end
+	 * stylesheet except the portal's own, so the active theme and page-builder CSS
+	 * can't leak in (e.g. styling our buttons).
+	 */
+	public static function isolate() {
+		if ( ! EDO_Router::is_portal_request() ) {
+			return;
+		}
+
+		$keep = array( 'edo-portal', 'edo-google-fonts' );
+
+		global $wp_styles;
+		if ( $wp_styles instanceof WP_Styles ) {
+			foreach ( (array) $wp_styles->queue as $handle ) {
+				if ( ! in_array( $handle, $keep, true ) ) {
+					wp_dequeue_style( $handle );
+				}
+			}
+		}
 	}
 
 	/**

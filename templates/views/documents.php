@@ -98,7 +98,7 @@ $edo_tile_class = static function ( $cat ) {
 					<span><?php esc_html_e( 'Openen', 'setg' ); ?></span>
 				</a>
 				<button type="button" class="edo-modal__close" data-edo-close aria-label="<?php esc_attr_e( 'Sluiten', 'setg' ); ?>">
-					<?php echo edo_icon( 'close', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted SVG. ?>
+					&times;
 				</button>
 			</div>
 		</div>

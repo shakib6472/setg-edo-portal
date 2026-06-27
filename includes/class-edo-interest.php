@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class EDO_Interest {
 
 	const META  = '_edo_interested';
-	const NONCE = 'edo_interest';
+	const NONCE = 'edo_portal'; // Shared front-end portal nonce (interest + comments).
 
 	/**
 	 * Hook in. The AJAX handler is always registered (admin-ajax.php runs in the

@@ -195,6 +195,12 @@
 						var on = !! res.data.interested;
 						btn.classList.toggle( 'is-on', on );
 						btn.setAttribute( 'aria-pressed', on ? 'true' : 'false' );
+
+						var card = btn.closest( '.edo-acard' );
+						var likeN = card && card.querySelector( '.edo-likecount__n' );
+						if ( likeN && typeof res.data.count !== 'undefined' ) {
+							likeN.textContent = res.data.count;
+						}
 					}
 				} )
 				.catch( function () {} )
@@ -204,9 +210,164 @@
 		} );
 	}
 
+	/* ---- Comments / questions ---- */
+
+	function initComments() {
+		var modal = document.getElementById( 'edo-cmt-modal' );
+		if ( ! modal || typeof edoPortal === 'undefined' ) {
+			return;
+		}
+
+		var titleEl   = modal.querySelector( '#edo-cmt-title' );
+		var listEl    = modal.querySelector( '[data-edo-cmt-list]' );
+		var form      = modal.querySelector( '[data-edo-cmt-form]' );
+		var input     = modal.querySelector( '[data-edo-cmt-input]' );
+		var replyBar  = modal.querySelector( '[data-edo-cmt-replyto]' );
+		var replyName = modal.querySelector( '[data-edo-cmt-replyname]' );
+		var current   = null;
+		var replyTo   = 0;
+		var lastFocus = null;
+
+		function setEmpty() {
+			listEl.innerHTML = '<p class="edo-cmt-empty">' + 'Nog geen reacties. Stel de eerste vraag.' + '</p>';
+		}
+
+		function clearReply() {
+			replyTo = 0;
+			if ( replyBar ) {
+				replyBar.hidden = true;
+			}
+			if ( replyName ) {
+				replyName.textContent = '';
+			}
+		}
+
+		function load() {
+			listEl.innerHTML = '<p class="edo-cmt-empty">…</p>';
+			var data = new FormData();
+			data.append( 'action', 'edo_get_comments' );
+			data.append( 'assignment', current );
+			data.append( 'nonce', edoPortal.nonce );
+			fetch( edoPortal.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data } )
+				.then( function ( r ) { return r.json(); } )
+				.then( function ( res ) {
+					if ( res && res.success && res.data.count ) {
+						listEl.innerHTML = res.data.html;
+						listEl.scrollTop = listEl.scrollHeight;
+					} else {
+						setEmpty();
+					}
+				} )
+				.catch( setEmpty );
+		}
+
+		function open( id, title ) {
+			current = id;
+			lastFocus = document.activeElement;
+			titleEl.textContent = title || '';
+			input.value = '';
+			clearReply();
+			modal.hidden = false;
+			document.body.style.overflow = 'hidden';
+			load();
+		}
+
+		function close() {
+			modal.hidden = true;
+			listEl.innerHTML = '';
+			document.body.style.overflow = '';
+			clearReply();
+			if ( lastFocus && lastFocus.focus ) {
+				lastFocus.focus();
+			}
+		}
+
+		function updateCount( id, count ) {
+			var badge = document.querySelector( '[data-edo-cmt-open="' + id + '"] .edo-cmtbtn__count' );
+			if ( badge ) {
+				badge.textContent = '(' + count + ')';
+			}
+		}
+
+		document.addEventListener( 'click', function ( e ) {
+			var opener = e.target.closest( '[data-edo-cmt-open]' );
+			if ( opener ) {
+				open( opener.getAttribute( 'data-edo-cmt-open' ), opener.getAttribute( 'data-title' ) );
+				return;
+			}
+			if ( ! modal.contains( e.target ) ) {
+				return;
+			}
+			if ( e.target.closest( '[data-edo-close]' ) ) {
+				close();
+				return;
+			}
+			var replyBtn = e.target.closest( '.edo-cmt-reply' );
+			if ( replyBtn ) {
+				replyTo = replyBtn.getAttribute( 'data-reply' );
+				replyName.textContent = replyBtn.getAttribute( 'data-name' );
+				replyBar.hidden = false;
+				input.focus();
+				return;
+			}
+			if ( e.target.closest( '[data-edo-cmt-replycancel]' ) ) {
+				clearReply();
+			}
+		} );
+
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' === e.key && ! modal.hidden ) {
+				close();
+			}
+		} );
+
+		form.addEventListener( 'submit', function ( e ) {
+			e.preventDefault();
+			var content = input.value.trim();
+			if ( ! content || ! current ) {
+				return;
+			}
+			var btn = form.querySelector( 'button[type="submit"]' );
+			btn.disabled = true;
+
+			var data = new FormData();
+			data.append( 'action', 'edo_post_comment' );
+			data.append( 'assignment', current );
+			data.append( 'content', content );
+			data.append( 'parent', replyTo || 0 );
+			data.append( 'nonce', edoPortal.nonce );
+
+			fetch( edoPortal.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data } )
+				.then( function ( r ) { return r.json(); } )
+				.then( function ( res ) {
+					if ( res && res.success ) {
+						var empty = listEl.querySelector( '.edo-cmt-empty' );
+						if ( empty ) {
+							empty.remove();
+						}
+						var target = listEl;
+						if ( res.data.parent ) {
+							var parentEl = listEl.querySelector( '[data-id="' + res.data.parent + '"] .edo-cmt__children' );
+							if ( parentEl ) {
+								target = parentEl;
+							}
+						}
+						target.insertAdjacentHTML( 'beforeend', res.data.html );
+						input.value = '';
+						clearReply();
+						listEl.scrollTop = listEl.scrollHeight;
+						updateCount( current, res.data.count );
+					}
+				} )
+				.catch( function () {} )
+				.finally( function () { btn.disabled = false; } );
+		} );
+	}
+
 	function init() {
 		initDocFilters();
 		initInterest();
+		initComments();
 		setupModal( document.getElementById( 'edo-doc-modal' ), '[data-edo-doc-open]', fillDoc );
 		setupModal( document.getElementById( 'edo-anc-modal' ), '[data-edo-anc-open]', fillAnnouncement );
 	}

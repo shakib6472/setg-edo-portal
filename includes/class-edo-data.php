@@ -57,6 +57,8 @@ class EDO_Data {
 				'day'        => $dm['day'],
 				'mon'        => $dm['mon'],
 				'interested' => EDO_Interest::is_interested( $p->ID, get_current_user_id() ),
+				'interest_count' => EDO_Interest::count( $p->ID ),
+				'comments'   => (int) get_comments_number( $p->ID ),
 				'is_sample'  => false,
 			);
 		}
