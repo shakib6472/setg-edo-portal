@@ -55,6 +55,7 @@ final class EDO_Portal {
 		require_once EDO_PORTAL_DIR . 'includes/class-edo-interest.php';
 		require_once EDO_PORTAL_DIR . 'includes/class-edo-comments.php';
 		require_once EDO_PORTAL_DIR . 'includes/class-edo-registration.php';
+		require_once EDO_PORTAL_DIR . 'includes/class-edo-profile.php';
 
 		// Admin-only subsystems.
 		if ( is_admin() ) {
@@ -78,6 +79,7 @@ final class EDO_Portal {
 		EDO_Interest::init();
 		EDO_Comments::init();
 		EDO_Registration::init();
+		EDO_Profile::init();
 
 		if ( is_admin() ) {
 			EDO_Meta_Boxes::init();

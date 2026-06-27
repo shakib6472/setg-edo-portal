@@ -829,6 +829,9 @@
 	gap: 8px;
 }
 .edo-blockbtn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	margin-top: 2px;
 	font-size: 13px;
 	font-weight: 700;
@@ -840,6 +843,10 @@
 }
 .edo-blockbtn:hover {
 	background: var(--edo-green-hover);
+}
+.edo-blockbtn--auto {
+	width: auto;
+	padding: 11px 20px;
 }
 
 /* ---------- Documents ---------- */
@@ -1701,6 +1708,52 @@
 	color: var(--edo-green);
 	font-size: 17px;
 	line-height: 1;
+}
+
+/* ---------- Profile edit ---------- */
+.edo-profile-form {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	max-width: 640px;
+}
+.edo-profile-form label {
+	display: block;
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--edo-soft);
+	margin-bottom: 6px;
+}
+.edo-form-actions {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+	margin-top: 6px;
+}
+.edo-btn-ghost {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 11px 18px;
+	border-radius: 11px;
+	font-weight: 700;
+	font-size: 14px;
+	color: var(--edo-soft);
+	background: #fff;
+	border: 1px solid var(--edo-field-bd);
+}
+.edo-btn-ghost:hover {
+	border-color: var(--edo-green);
+	color: var(--edo-green);
+}
+.edo-savednote {
+	background: var(--edo-tint);
+	color: var(--edo-green);
+	padding: 12px 16px;
+	border-radius: 12px;
+	margin-bottom: 18px;
+	font-size: 13.5px;
+	font-weight: 600;
 }
 
 /* ---------- Mobile ---------- */
