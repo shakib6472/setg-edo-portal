@@ -56,7 +56,7 @@ Build the remaining screens, all reading from the data models (sample fallback).
 
 ---
 
-## Phase 2 — Admin content management
+## Phase 2 — Admin content management 
 
 Let SETG manage everything from wp-admin without touching code.
 
