@@ -56,5 +56,14 @@ class EDO_Assets {
 			$js_version,
 			true
 		);
+
+		wp_localize_script(
+			'edo-portal',
+			'edoPortal',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( EDO_Interest::NONCE ),
+			)
+		);
 	}
 }

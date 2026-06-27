@@ -64,7 +64,20 @@ $edo_tag_class = static function ( $type ) {
 					<span class="edo-comp__label"><?php esc_html_e( 'Vergoeding', 'setg' ); ?></span>
 					<strong><?php echo esc_html( $a['comp'] ); ?></strong>
 				</div>
-				<button type="button" class="edo-pillbtn"><?php esc_html_e( 'Ik ben geïnteresseerd', 'setg' ); ?></button>
+				<?php if ( is_numeric( $a['id'] ) ) : ?>
+					<?php $edo_on = ! empty( $a['interested'] ); ?>
+					<button
+						type="button"
+						class="edo-pillbtn edo-interest<?php echo $edo_on ? ' is-on' : ''; ?>"
+						data-edo-interest="<?php echo (int) $a['id']; ?>"
+						aria-pressed="<?php echo $edo_on ? 'true' : 'false'; ?>"
+					>
+						<span class="edo-interest__off"><?php esc_html_e( 'Ik ben geïnteresseerd', 'setg' ); ?></span>
+						<span class="edo-interest__on"><?php esc_html_e( 'Aangemeld ✓', 'setg' ); ?></span>
+					</button>
+				<?php else : ?>
+					<button type="button" class="edo-pillbtn"><?php esc_html_e( 'Ik ben geïnteresseerd', 'setg' ); ?></button>
+				<?php endif; ?>
 			</div>
 
 		</article>

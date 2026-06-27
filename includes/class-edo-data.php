@@ -54,9 +54,10 @@ class EDO_Data {
 				'comp'      => (string) get_post_meta( $p->ID, 'compensation', true ),
 				'tag'       => (string) get_post_meta( $p->ID, 'status_tag', true ),
 				'tag_type'  => (string) get_post_meta( $p->ID, 'status_type', true ),
-				'day'       => $dm['day'],
-				'mon'       => $dm['mon'],
-				'is_sample' => false,
+				'day'        => $dm['day'],
+				'mon'        => $dm['mon'],
+				'interested' => EDO_Interest::is_interested( $p->ID, get_current_user_id() ),
+				'is_sample'  => false,
 			);
 		}
 		return $rows;

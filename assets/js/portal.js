@@ -166,8 +166,47 @@
 		modal.querySelector( '[data-edo-modal-body]' ).innerHTML = full ? full.innerHTML : '';
 	}
 
+	/* ---- Assignment interest ---- */
+
+	function initInterest() {
+		if ( typeof edoPortal === 'undefined' ) {
+			return;
+		}
+
+		document.addEventListener( 'click', function ( e ) {
+			var btn = e.target.closest( '[data-edo-interest]' );
+			if ( ! btn || btn.disabled ) {
+				return;
+			}
+
+			btn.disabled = true;
+
+			var data = new FormData();
+			data.append( 'action', 'edo_toggle_interest' );
+			data.append( 'assignment', btn.getAttribute( 'data-edo-interest' ) );
+			data.append( 'nonce', edoPortal.nonce );
+
+			fetch( edoPortal.ajaxUrl, { method: 'POST', credentials: 'same-origin', body: data } )
+				.then( function ( r ) {
+					return r.json();
+				} )
+				.then( function ( res ) {
+					if ( res && res.success ) {
+						var on = !! res.data.interested;
+						btn.classList.toggle( 'is-on', on );
+						btn.setAttribute( 'aria-pressed', on ? 'true' : 'false' );
+					}
+				} )
+				.catch( function () {} )
+				.finally( function () {
+					btn.disabled = false;
+				} );
+		} );
+	}
+
 	function init() {
 		initDocFilters();
+		initInterest();
 		setupModal( document.getElementById( 'edo-doc-modal' ), '[data-edo-doc-open]', fillDoc );
 		setupModal( document.getElementById( 'edo-anc-modal' ), '[data-edo-anc-open]', fillAnnouncement );
 	}

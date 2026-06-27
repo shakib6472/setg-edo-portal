@@ -30,9 +30,13 @@ class EDO_Admin_Columns {
 					'label' => __( 'Datum', 'setg' ),
 					'meta'  => 'event_date',
 				),
-				'edo_tag'    => array(
+				'edo_tag'      => array(
 					'label' => __( 'Label', 'setg' ),
 					'meta'  => 'status_tag',
+				),
+				'edo_interest' => array(
+					'label'    => __( 'Geïnteresseerd', 'setg' ),
+					'callback' => 'assignment_interest',
 				),
 			),
 			'edo_training'     => array(
@@ -129,6 +133,17 @@ class EDO_Admin_Columns {
 
 		$value = get_post_meta( $post_id, $def['meta'], true );
 		echo esc_html( $value ? $value : '—' );
+	}
+
+	/**
+	 * Interested-members count cell.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string
+	 */
+	private static function assignment_interest( $post_id ) {
+		$n = class_exists( 'EDO_Interest' ) ? EDO_Interest::count( $post_id ) : 0;
+		return $n > 0 ? '<strong>' . esc_html( $n ) . '</strong>' : '—';
 	}
 
 	/**

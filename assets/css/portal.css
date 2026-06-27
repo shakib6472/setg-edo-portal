@@ -1516,6 +1516,28 @@
 	margin: 6px 0;
 }
 
+/* ---------- Assignment interest button ---------- */
+.edo-interest__on {
+	display: none;
+}
+.edo-interest.is-on {
+	background: var(--edo-tint);
+	color: var(--edo-green);
+}
+.edo-interest.is-on:hover {
+	background: #def0e3;
+}
+.edo-interest.is-on .edo-interest__off {
+	display: none;
+}
+.edo-interest.is-on .edo-interest__on {
+	display: inline;
+}
+.edo-pillbtn[disabled] {
+	opacity: 0.65;
+	cursor: default;
+}
+
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
 	.edo-sidebar {
